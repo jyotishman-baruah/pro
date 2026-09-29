@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jyotishman Baruah — Creative Portfolio</title>
+<meta name="description" content="Jyotishman Baruah — 3D graphics, design and animation portfolio." />
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;600;700;800&display=swap');
+
+:root{
+  --bg:#05070b; --panel:rgba(10,14,22,.72); --line:rgba(139,156,180,.18);
+  --text:#eef4ff; --muted:#8e9bae; --cyan:#4df3ff; --violet:#8b6cff;
+  --green:#70ffb0; --orange:#ff9b52;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;overflow-x:hidden}
+#scene{position:fixed;inset:0;z-index:0}
+.vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(circle at 50% 40%,transparent 15%,rgba(0,0,0,.28) 65%,rgba(0,0,0,.8) 100%)}
+.scanlines{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.045;background:repeating-linear-gradient(to bottom,transparent 0 3px,#fff 4px,transparent 5px)}
+.ui{position:relative;z-index:3}
+nav{position:fixed;top:18px;left:50%;transform:translateX(-50%);width:min(1120px,calc(100% - 32px));display:flex;align-items:center;justify-content:space-between;padding:13px 16px 13px 20px;border:1px solid var(--line);background:rgba(5,8,13,.65);backdrop-filter:blur(18px);border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+.logo{font:700 14px Orbitron;letter-spacing:.12em}
+.logo span{color:var(--cyan)}
+.navlinks{display:flex;gap:22px}
+.navlinks a{color:#b7c0ce;text-decoration:none;font-size:12px;text-transform:uppercase;letter-spacing:.12em;transition:.2s}
+.navlinks a:hover{color:var(--cyan)}
+.status{display:flex;gap:8px;align-items:center;font-size:10px;color:#9aa7b8;letter-spacing:.08em}
+.dot{width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 14px var(--green)}
+.hero{min-height:100vh;width:min(1180px,calc(100% - 40px));margin:auto;display:grid;align-items:center;padding:120px 0 70px}
+.hero-card{max-width:760px}
+.kicker{display:inline-flex;align-items:center;gap:10px;color:var(--cyan);font:600 11px Orbitron;letter-spacing:.18em;text-transform:uppercase;margin-bottom:22px}
+.kicker:before{content:"";width:38px;height:1px;background:var(--cyan);box-shadow:0 0 12px var(--cyan)}
+h1{font:800 clamp(54px,9vw,118px)/.88 Orbitron;margin:0;letter-spacing:-.065em;text-transform:uppercase;text-shadow:0 0 35px rgba(77,243,255,.13)}
+h1 .accent{display:block;color:transparent;-webkit-text-stroke:1px rgba(238,244,255,.8);text-shadow:0 0 25px rgba(139,108,255,.2)}
+.hero p{max-width:650px;color:#aeb8c7;font-size:16px;line-height:1.8;margin:30px 0}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 18px;border-radius:8px;text-decoration:none;font:700 11px Orbitron;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);transition:.25s}
+.btn.primary{background:linear-gradient(135deg,rgba(77,243,255,.18),rgba(139,108,255,.2));border-color:rgba(77,243,255,.5);color:#fff;box-shadow:0 0 30px rgba(77,243,255,.08)}
+.btn:hover{transform:translateY(-3px);border-color:var(--cyan);box-shadow:0 12px 35px rgba(77,243,255,.12)}
+.btn.secondary{color:#b9c4d2;background:rgba(255,255,255,.03)}
+.hud{position:absolute;right:0;bottom:80px;width:220px;padding:15px;border:1px solid var(--line);background:rgba(4,7,12,.5);backdrop-filter:blur(10px);font:10px Orbitron;color:#7f8b9d;line-height:1.9}
+.hud b{color:#dce8f7}.bar{height:3px;background:#18212d;margin:7px 0 11px;overflow:hidden}.bar i{display:block;width:72%;height:100%;background:linear-gradient(90deg,var(--cyan),var(--violet));box-shadow:0 0 12px var(--cyan)}
+section{width:min(1120px,calc(100% - 40px));margin:0 auto;padding:110px 0}
+.section-head{display:flex;align-items:end;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:35px}
+.eyebrow{font:600 10px Orbitron;color:var(--cyan);letter-spacing:.16em;text-transform:uppercase;margin-bottom:10px}
+h2{font:700 clamp(28px,5vw,48px) Orbitron;margin:0;letter-spacing:-.04em}
+.section-no{font:500 10px Orbitron;color:#566273}
+.panel{border:1px solid var(--line);background:linear-gradient(135deg,rgba(11,16,25,.86),rgba(7,10,16,.68));backdrop-filter:blur(14px);border-radius:18px;overflow:hidden}
+.about-grid{display:grid;grid-template-columns:1.4fr .8fr}
+.about-copy{padding:34px}
+.about-copy p{color:#aab5c5;line-height:1.9;font-size:15px}
+.stats{display:grid;grid-template-columns:1fr 1fr;border-left:1px solid var(--line)}
+.stat{padding:27px;border-bottom:1px solid var(--line)}
+.stat:nth-child(odd){border-right:1px solid var(--line)}
+.stat strong{font:700 27px Orbitron;color:#eaf7ff}.stat span{display:block;margin-top:8px;color:#78869a;font-size:11px;text-transform:uppercase;letter-spacing:.1em}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{position:relative;min-height:260px;padding:25px;border:1px solid var(--line);background:linear-gradient(160deg,rgba(12,18,29,.82),rgba(6,9,14,.65));border-radius:16px;overflow:hidden;transition:.3s}
+.card:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,20%),rgba(77,243,255,.14),transparent 38%);opacity:.8}
+.card:hover{transform:translateY(-7px);border-color:rgba(77,243,255,.42);box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.card>*{position:relative}
+.card-icon{font:700 12px Orbitron;color:var(--cyan);letter-spacing:.12em}
+.card h3{font:700 22px Orbitron;margin:60px 0 12px}.card p{color:#8e9aac;line-height:1.7;font-size:13px}
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:20px}.tag{font-size:10px;color:#aeb9c8;border:1px solid var(--line);padding:6px 8px;border-radius:5px}
+.timeline{display:grid;gap:12px}.item{display:grid;grid-template-columns:160px 1fr;gap:25px;padding:25px;border:1px solid var(--line);background:rgba(8,12,19,.65);border-radius:14px}.date{font:600 10px Orbitron;color:var(--cyan);letter-spacing:.1em}.item h3{margin:0 0 7px;font-size:17px}.item p{margin:0;color:#8d99a9;font-size:13px;line-height:1.7}
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:15px}.contact-box{padding:32px;border:1px solid var(--line);border-radius:16px;background:rgba(9,13,21,.72)}.contact-box h3{font:700 20px Orbitron;margin:0 0 14px}.contact-box p,.contact-box a{color:#99a5b5;line-height:1.8;font-size:14px}.contact-box a{color:var(--cyan);text-decoration:none;word-break:break-word}
+footer{width:min(1120px,calc(100% - 40px));margin:auto;padding:30px 0 45px;border-top:1px solid var(--line);display:flex;justify-content:space-between;color:#566273;font-size:11px}
+.cursor{position:fixed;z-index:10;width:18px;height:18px;border:1px solid rgba(77,243,255,.7);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);mix-blend-mode:screen;transition:width .2s,height .2s}
+@media(max-width:800px){.navlinks{display:none}.hud{display:none}.about-grid,.contact{grid-template-columns:1fr}.stats{border-left:0}.cards{grid-template-columns:1fr}.item{grid-template-columns:1fr;gap:10px}section{padding:80px 0}.hero{padding-top:110px}}
+</style>
+</head>
+<body>
+<canvas id="scene"></canvas><div class="vignette"></div><div class="scanlines"></div><div class="cursor" id="cursor"></div>
+<div class="ui">
+<nav>
+  <div class="logo">JYOTISHMAN<span>.EXE</span></div>
+  <div class="navlinks"><a href="#about">Profile</a><a href="#skills">Skills</a><a href="#experience">Experience</a><a href="#contact">Contact</a></div>
+  <div class="status"><i class="dot"></i> ONLINE</div>
+</nav>
+
+<header class="hero">
+  <div class="hero-card">
+    <div class="kicker">Creative Player // Portfolio Build 2026</div>
+    <h1>JYOTISHMAN <span class="accent">BARUAH</span></h1>
+    <p>Emerging animator and visual designer focused on drawing, illustration, graphics, 3D and animation. I turn visual ideas into stories while continuously pushing my craft forward.</p>
+    <div class="cta">
+      <a class="btn primary" href="#skills">Enter Portfolio ↗</a>
+      <a class="btn secondary" href="#contact">Contact Me</a>
+    </div>
+  </div>
+  <div class="hud">
+    PLAYER PROFILE<br><b>CREATIVE / ANIMATOR</b>
+    <div class="bar"><i></i></div>
+    VISUAL XP&nbsp;&nbsp; 72%<br>
+    DESIGN&nbsp;&nbsp;&nbsp;&nbsp; Figma<br>
+    MODE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ACTIVE
+  </div>
+</header>
+
+<section id="about">
+  <div class="section-head"><div><div class="eyebrow">01 // Player Profile</div><h2>About Me</h2></div><div class="section-no">BIO_001</div></div>
+  <div class="panel about-grid">
+    <div class="about-copy">
+      <p>I believe success isn’t about being the first to start, but about staying persistent and consistent. That’s what defines me.</p>
+      <p>My creative journey grew through drawing, illustration, graphics and animation. As an emerging animator, I’m dedicated to telling stories through visual expression and constantly pushing myself to grow as an artist.</p>
+      <p>My school experiences in basketball and football also shaped my leadership, teamwork and resilience.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><strong>3D</strong><span>Graphics</span></div>
+      <div class="stat"><strong>UX</strong><span>Design mindset</span></div>
+      <div class="stat"><strong>ART</strong><span>Illustration</span></div>
+      <div class="stat"><strong>ANI</strong><span>Animation</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="section-head"><div><div class="eyebrow">02 // Loadout</div><h2>Creative Skills</h2></div><div class="section-no">SKILL_TREE</div></div>
+  <div class="cards">
+    <article class="card"><div class="card-icon">01 / DESIGN</div><h3>Visual Design</h3><p>Building clear, expressive visual communication with a strong interest in digital design and creative composition.</p><div class="tags"><span class="tag">Figma</span><span class="tag">Design</span></div></article>
+    <article class="card"><div class="card-icon">02 / 3D</div><h3>3D Graphics</h3><p>Exploring three-dimensional visual language, environments, objects and cinematic presentation.</p><div class="tags"><span class="tag">3D</span><span class="tag">Visuals</span></div></article>
+    <article class="card"><div class="card-icon">03 / MOTION</div><h3>Animation</h3><p>Using movement and visual expression to develop stories and communicate ideas through animation.</p><div class="tags"><span class="tag">Animation</span><span class="tag">Storytelling</span></div></article>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="section-head"><div><div class="eyebrow">03 // Mission Log</div><h2>Experience</h2></div><div class="section-no">LOG_2026</div></div>
+  <div class="timeline">
+    <article class="item"><div class="date">JAN 2026 — FEB 2026</div><div><h3>Visual Designer — InAmigos Foundation (IAF)</h3><p>Designed posters and reels for projects focused on making an impact in society.</p></div></article>
+    <article class="item"><div class="date">2024 — 2027</div><div><h3>St Joseph's University</h3><p>Current academic journey, developing creative skills across design, graphics and animation.</p></div></article>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section-head"><div><div class="eyebrow">04 // Connect</div><h2>Start a Mission</h2></div><div class="section-no">COMMS_READY</div></div>
+  <div class="contact">
+    <div class="contact-box"><h3>Let's create.</h3><p>For creative collaborations, design opportunities or project conversations, reach out through the contact channels below.</p></div>
+    <div class="contact-box"><h3>Contact</h3><p>Email<br><a href="mailto:jyotishman.boruah2005@gmail.com">jyotishman.boruah2005@gmail.com</a></p><p>LinkedIn<br><a href="https://www.linkedin.com/in/jyotishman-baruah-b0253134b" target="_blank" rel="noopener">linkedin.com/in/jyotishman-baruah-b0253134b</a></p></div>
+  </div>
+</section>
+
+<footer><span>JYOTISHMAN.EXE // CREATIVE PORTFOLIO</span><span>© 2026</span></footer>
+</div>
+
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js';
+
+const canvas=document.querySelector('#scene');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setSize(innerWidth,innerHeight);
+renderer.outputColorSpace=THREE.SRGBColorSpace;
+
+const scene=new THREE.Scene();
+scene.fog=new THREE.FogExp2(0x05070b,0.035);
+
+const camera=new THREE.PerspectiveCamera(55,innerWidth/innerHeight,.1,100);
+camera.position.set(0,2.2,12);
+
+const ambient=new THREE.HemisphereLight(0x9bbcff,0x070912,1.2); scene.add(ambient);
+const key=new THREE.PointLight(0x4df3ff,28,30); key.position.set(5,5,4); scene.add(key);
+const rim=new THREE.PointLight(0x8b6cff,24,26); rim.position.set(-6,1,-2); scene.add(rim);
+
+const grid=new THREE.GridHelper(70,70,0x203245,0x101925);
+grid.position.y=-2.5; grid.rotation.y=.08; scene.add(grid);
+
+const group=new THREE.Group(); scene.add(group);
+
+// Floating geometric "game engine" assets
+const mat1=new THREE.MeshStandardMaterial({color:0x101a2b,metalness:.75,roughness:.22,emissive:0x07121c});
+const mat2=new THREE.MeshStandardMaterial({color:0x17102c,metalness:.7,roughness:.25,emissive:0x10051e});
+const wire=new THREE.MeshBasicMaterial({color:0x4df3ff,wireframe:true,transparent:true,opacity:.22});
+
+for(let i=0;i<26;i++){
+  const geo=i%3===0?new THREE.IcosahedronGeometry(.55+Math.random()*.6,1):
+             i%3===1?new THREE.BoxGeometry(.8+Math.random(),.8+Math.random(),.8+Math.random()):
+             new THREE.TorusGeometry(.55+Math.random()*.45,.12,12,32);
+  const m=new THREE.Mesh(geo,i%2?mat2:mat1);
+  m.position.set((Math.random()-.5)*24,(Math.random()-.2)*11-1,(Math.random()-.5)*18-3);
+  m.rotation.set(Math.random()*3,Math.random()*3,Math.random()*3);
+  m.userData={speed:.001+Math.random()*.004,rx:(Math.random()-.5)*.01,ry:(Math.random()-.5)*.015};
+  group.add(m);
+  if(i<10){const w=new THREE.Mesh(geo.clone(),wire);w.scale.multiplyScalar(1.04);m.add(w)}
+}
+
+const particleGeo=new THREE.BufferGeometry();
+const count=1400, pos=new Float32Array(count*3);
+for(let i=0;i<count;i++){pos[i*3]=(Math.random()-.5)*55;pos[i*3+1]=(Math.random()-.5)*30;pos[i*3+2]=(Math.random()-.5)*45-5}
+particleGeo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+const particles=new THREE.Points(particleGeo,new THREE.PointsMaterial({color:0x9ac7ff,size:.025,transparent:true,opacity:.7}));
+scene.add(particles);
+
+const pointer={x:0,y:0,tx:0,ty:0};
+addEventListener('pointermove',e=>{
+  pointer.tx=(e.clientX/innerWidth-.5); pointer.ty=(e.clientY/innerHeight-.5);
+  document.querySelector('#cursor').style.left=e.clientX+'px';
+  document.querySelector('#cursor').style.top=e.clientY+'px';
+});
+document.querySelectorAll('.card').forEach(c=>c.addEventListener('pointermove',e=>{
+  const r=c.getBoundingClientRect(); c.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%'); c.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');
+}));
+
+const clock=new THREE.Clock();
+function animate(){
+  requestAnimationFrame(animate);
+  const t=clock.getElapsedTime();
+  pointer.x+=(pointer.tx-pointer.x)*.035; pointer.y+=(pointer.ty-pointer.y)*.035;
+  camera.position.x=pointer.x*1.8;
+  camera.position.y=2.2-pointer.y*1.1;
+  camera.lookAt(pointer.x*.35,0,0);
+  group.rotation.y=t*.025+pointer.x*.12;
+  group.rotation.x=pointer.y*.035;
+  particles.rotation.y=t*.008;
+  particles.rotation.x=pointer.y*.02;
+  key.position.x=5+pointer.x*5; key.position.y=4-pointer.y*2;
+  group.children.forEach((o,i)=>{o.rotation.x+=o.userData?.rx||.001;o.rotation.y+=o.userData?.ry||.001;o.position.y+=Math.sin(t*(.4+i*.01)+i)*.0008});
+  renderer.render(scene,camera);
+}
+animate();
+
+addEventListener('resize',()=>{
+  camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth,innerHeight);
+});
+</script>
+</body>
+</html>
